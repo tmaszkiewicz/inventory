@@ -1,0 +1,14 @@
+{% extends 'inventory/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!--<form method="post" action="http://192.168.41.19:8000/inventory/terminals/"  novalidate>-->
+<form method="post" action=""  novalidate>
+{% csrf_token %}
+<div class="container">
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-danger">Zapisz event</button>
+</div>
+</form>    
+{% endblock content %}
+    

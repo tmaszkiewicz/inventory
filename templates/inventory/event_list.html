@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'inventory/index.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            <div class="row">
+			
+		<table id="myPCs" class="table">
+		<tr>
+		<td>
+			<label class="control-label">SN</label>
+			<input class= type="text" id="myInputTerm" onkeyup="myFilter(0,'myInputTerm')" placeholder="Search for term.." title="Type in a term">
+
+		</td>
+		<td>
+			<label class="control-label">Data</label>
+		</td>
+		<td>
+			<label class="control-label">HostBefore</label>
+		</td>
+		<td>
+			<label class="control-label">HostAfter</label>
+		</td>
+		<td>
+			<label class="control-label">Odbierajacy</label>
+		</td>
+		<td>
+			<label class="control-label">Przyjmujacy</label>
+		</td>
+		<td>
+			<label class="control-label">Description</label>
+			<input class= type="text" id="myInputDescr" onkeyup="myFilter(6,'myInputDescr')" placeholder="Search for term.." title="Type in a term">
+
+		</td>
+		<td>
+			<label class="control-label">TYP</label>
+			<input class= type="text" id="myInputTyp" onkeyup="myFilter(7,'myInputTyp')" placeholder="Search for term.." title="Type in a term">
+
+		</td>
+
+		</tr>
+
+		{% for termShift in termShifts %}
+		<tr>
+		<td>
+			{{termShift.term.sn}}
+		</td>
+		<td>
+			{{termShift.eventDate}}
+		</td>
+		<td>
+			{{termShift.hostnameBefore}}
+		</td>
+		<td>
+			{{termShift.hostnameAfter}}
+		</td>
+		<td>
+			{{termShift.odbierajacy}}
+		</td>
+		<td>
+			{{termShift.wydajacy}}
+		</td>
+		<td>
+			{{termShift.description}}
+		</td>
+		<td>
+			{{termShift.typ}}
+		</td>
+		</tr>
+		
+		{% endfor %}
+		</table>
+		
+            </div>
+        </div>
+    </div>
+{% endblock %}

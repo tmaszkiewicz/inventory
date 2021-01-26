@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{%extends index.html%}
+{% extends 'inventory/index.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            <div class="row">
+		{% for workstation in workstations %}
+                <div class="col-md-12"><a href="www.wp.pl">{{ workstation }}</a></div>
+		{% endfor %}
+		
+            </div>
+        </div>
+    </div>
+{% endblock %}

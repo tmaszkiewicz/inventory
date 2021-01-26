@@ -1,0 +1,22 @@
+{% extends 'inventory/index.html' %}
+{% block content %}
+<div class="container">
+    <form method="post" name="office_edit" enctype="multipart/form-data" action="">
+	{% csrf_token %}
+        <h2 class="text-center">LICENCJA OFFICE</h2>
+	KEY
+        <div class="form-group"><input type="text" name="key" placeholder="key" class="form-control" value="{{license.key}}"></div>
+	AVAILABLE
+        <div class="form-group"><input type="text" name="available" placeholder="available" class="form-control" value="{{license.available}}"></div>
+	DESCR
+        <div class="form-group"><input type="text" name="description" placeholder="description" class="form-control" value="{{license.description}}"></div>
+	INUSE
+        <div class="form-group"><input type="text" name="inUse" placeholder="inUse" class="form-control" value="{{license.inUse}}"></div>
+	FREE
+        <div class="form-group"><input type="text" name="free" placeholder="free" class="form-control" value="{{license.free}}"></div>
+	VOL
+        <div class="form-group"><input type="text" name="vol" placeholder="vol" class="form-control" value="{{license.vol}}"></div>
+        <div class="form-group"><button class="btn btn-primary" type="submit">send</button></div>
+    </form>
+</div>
+{% endblock %}

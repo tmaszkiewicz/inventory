@@ -1,0 +1,32 @@
+{% extends 'inventory/index.html' %}
+{% block content %}
+<div class="contact-clean">
+    <form method="post" name="svr1_edit" enctype="multipart/form-data" action="./{{svr1.pk}}">
+	{% csrf_token %}
+        <h2 class="text-center">SERWERY</h2>
+        <div class="form-group"><input type="text" name="cn" placeholder="cn" class="form-control" value="sss" {{svr1.cn}}></div>
+        <div class="form-group"><input type="text" name="operatingSystem" placeholder="operatingSystem" class="form-control" value={{svr1.operatingSystem}}></div>
+        <div class="form-group"><input type="text" name="description" placeholder="description" class="form-control" value={{svr1.description}}></div>
+        <div class="form-group"><input type="text" name="operatingSystemServicePack" placeholder="operatingSystemServicePack" class="form-control" value={{svr1.operatingSystemServicePack}}></div>
+        <div class="form-group"><input type="text" name="distinguishedName" placeholder="distinguishedName " class="form-control" value={{svr1.distinguishedName}}></div>
+        <div class="form-group"><input type="text" name="dNSHostName" placeholder="dNSHostName" class="form-control" value={{svr1.dNSHostName}}></div>
+	<div>
+	<select name="user" value={{svr1.user}}>
+		<option value="">{{svr1.user}}</option>
+		{%for u in users%}
+			<option value="{{u.pk}}">{{u.cn}}</option>
+		{%endfor%}
+	</select>
+	</div>
+	<div>
+	<select name="windowsSvrLicense" value={{svr1.windowsSvrLicense}}>
+		<option value="">{{svr1.windowsSvrLicense}}</option>
+		{%for u in licenses%}
+			<option value="{{u.pk}}">{{u.key}}{{u.osName}}</option>
+		{%endfor%}
+	</select>
+	</div>
+        <div class="form-group"><button class="btn btn-primary" type="submit">send</button></div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'inventory/index.html' %}
+{% block content %}
+<div class="contact-clean">
+    <form method="post">
+	{% csrf_token %}
+        <h2 class="text-center">LICENCJA WINDOWS SERVER</h2>
+        <div class="form-group"><input type="text" name="key" placeholder="key" class="form-control" value={{license.key}}></div>
+        <div class="form-group"><input type="text" name="available" placeholder="available" class="form-control" value={{license.available}}></div>
+
+        <div class="form-group"><input type="text" name="description" placeholder="description" class="form-control" value={{license.description}}></div>
+
+        <div class="form-group"><input type="text" name="inUse" placeholder="inUse" class="form-control" value={{license.inUse}}></div>
+        <div class="form-group"><input type="text" name="free" placeholder="free" class="form-control" value={{license.free}}></div>
+        <div class="form-group"><button class="btn btn-primary" type="submit">send</button></div>
+    </form>
+</div>
+{% endblock %}

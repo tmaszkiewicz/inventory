@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'inventory/index.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            <div class="row">
+			
+		<table id="myPCs" class="table">
+
+		<tr>
+
+		<td>
+			<label class="control-label">PC</label>
+			<input class= type="text" id="myInputPC" onkeyup="myFilter(0,'myInputPC')" placeholder="Search for PC.." title="Type in a PC">
+			<span class="glyphicon glyphicon-search"></span>
+		</td>
+
+
+		<td>
+			<label class="control-label">User</label>
+			<input class= type="text" id="myInputUSER" onkeyup="myFilter(1,'myInputUSER')" placeholder="Search for USER.." title="Type in a USER">
+			<span class="glyphicon glyphicon-search"></span>
+		</td>
+
+
+		<td>
+			<label class="control-label">OS</label>
+		</td>
+
+
+		<td>
+		<div>
+			<label class="control-label">OU</label>
+			<input class= type="text" id="myInputOU" onkeyup="myFilter(3,'myInputOU')" placeholder="Search for OU.." title="Type in an OU">
+			<span class="glyphicon glyphicon-search"></span>
+		</div>
+		
+
+		</td>
+		</tr>
+		
+		{% for workstation in workstations %}
+		<tr>
+		<td>
+                <div class="col-md-12"><a href="http://192.168.41.19:8000/inventory/workstation_edit/{{ workstation.pk }}">{{ workstation.cn }}</a></div>
+		</td>
+		<td>
+		{{ workstation.user.cn }}
+		</td>
+		<td>
+		{{ workstation.operatingSystem }}
+		</td>
+		<td>
+		{{ workstation.OU }}
+		</td>
+		<td>
+			<button onclick="javascript:runVnc()">VNC</button>
+		</td>
+		<td>
+		{{ workstation.officeLicense.inUse}}
+		</td>
+		</tr>
+		{% endfor %}
+		<tr>
+		<td>
+		<center>
+			
+			<a href=http://192.168.41.19:8000/inventory/workstations_export">EXPORT XLSX</a>
+		</center>
+		</td>
+		</tr>
+		</table>
+		
+            </div>
+        </div>
+    </div>
+{% endblock %}

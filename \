@@ -1,0 +1,154 @@
+import ldap
+from .models import machine
+from .models import svr
+def check_credentials(username, password):
+    """Verifies credentials for username and password.
+    Returns None on success or a string describing the error on failure
+    # Adapt to your needs
+    """
+    LDAP_SERVER = 'ldap://192.168.41.40'
+    # fully qualified AD user name
+    LDAP_USERNAME = '%s@jan.polipol.intra' % username
+    print(LDAP_USERNAME)
+    # your password
+    LDAP_PASSWORD = password
+    print(LDAP_PASSWORD)
+    attrs = ['memberOf']
+    try:
+        # build a client
+        ldap_client = ldap.initialize(LDAP_SERVER)
+        # perform a synchronous bind
+        ldap_client.set_option(ldap.OPT_REFERRALS,0)
+        ldap_client.simple_bind_s(LDAP_USERNAME, LDAP_PASSWORD)
+    except ldap.INVALID_CREDENTIALS:
+        ldap_client.unbind()
+        return 'Wrong username /  password'
+    except ldap.SERVER_DOWN:
+        return 'AD server not available'
+   # all is well
+   # get all user groups and store it in cerrypy session for future use
+    read_machines(ldap_client,"DC=jan,DC=polipol,DC=intra")
+    read_svr(ldap_client,"DC=jan,DC=polipol,DC=intra")
+    ldap_client.unbind()
+    return None
+def check_credentials_users(username, password):
+    """Verifies credentials for username and password.
+    Returns None on success or a string describing the error on failure
+    # Adapt to your needs
+    """
+    LDAP_SERVER = 'ldap://192.168.41.40'
+    # fully qualified AD user name
+    LDAP_USERNAME = '%s@jan.polipol.intra' % username
+    print(LDAP_USERNAME)
+    # your password
+    LDAP_PASSWORD = password
+    print(LDAP_PASSWORD)
+    attrs = ['memberOf']
+    try:
+        # build a client
+        ldap_client = ldap.initialize(LDAP_SERVER)
+        # perform a synchronous bind
+        ldap_client.set_option(ldap.OPT_REFERRALS,0)
+        ldap_client.simple_bind_s(LDAP_USERNAME, LDAP_PASSWORD)
+    except ldap.INVALID_CREDENTIALS:
+        ldap_client.unbind()
+        return 'Wrong username /  password'
+    except ldap.SERVER_DOWN:
+        return 'AD server not available'
+   # all is well
+   # get all user groups and store it in cerrypy session for future use
+    read_users(ldap_client,"DC=jan,DC=polipol,DC=intra")
+    ldap_client.unbind()
+    return None
+def read_machines(ldap_client,base_dn):
+    results = ldap_client.search_s(base_dn,ldap.SCOPE_SUBTREE,"(cn=jan-pc*)")
+    for dn,entry in results:
+        try:
+            cn = entry['cn'][0]
+            try:
+                operatingSystem = entry['operatingSystem'][0]
+            except:
+                operatingSystem = ""
+            try:
+                description = entry['description'][0]
+            except:
+                description = ""
+            try:
+                dNSHostName = entry['dNSHostName'][0]
+            except:
+                dNSHostName = ""
+            try:
+                distinguishedName = entry['distinguishedName'][0]
+            except:
+                distinguishedName = ""
+            try:
+                operatingSystemServicePack = entry['operatingSystemServicePack'][0]
+            except:
+                operatingSystemServicePack = ""
+
+            comp = machine()
+            comp.cn = cn
+            comp.operatingSystem = operatingSystem
+            comp.description= description
+            comp.dNSHostName = dNSHostName
+            comp.distinguishedName = distinguishedName
+            comp.operatingSystemServicePack = operatingSystemServicePack
+            comp.save()
+        except:
+            print(entry)
+    return None
+def read_svr(ldap_client,base_dn):
+    results = ldap_client.search_s(base_dn,ldap.SCOPE_SUBTREE,"(cn=jan-svr*)")
+    for dn,entry in results:
+        try:
+            cn = entry['cn'][0]
+            try:
+                operatingSystem = entry['operatingSystem'][0]
+            except:
+                operatingSystem = ""
+            try:
+                description = entry['description'][0]
+            except:
+                description = ""
+            try:
+                dNSHostName = entry['dNSHostName'][0]
+            except:
+                dNSHostName = ""
+            try:
+                distinguishedName = entry['distinguishedName'][0]
+            except:
+                distinguishedName = ""
+            try:
+                operatingSystemServicePack = entry['operatingSystemServicePack'][0]
+            except:
+                operatingSystemServicePack = ""
+
+            comp = svr()
+            comp.cn = cn
+            comp.operatingSystem = operatingSystem
+            comp.description= description
+            comp.dNSHostName = dNSHostName
+            comp.distinguishedName = distinguishedName
+            comp.operatingSystemServicePack = operatingSystemServicePack
+            comp.save()
+        except:
+            print(entry)
+    return None
+def read_users(ldap_client,base_dn):
+    results = ldap_client.search_s(base_dn,ldap.SCOPE_SUBTREE,"(cn=*.*)")
+    for dn,entry in results:
+        print(entry)
+        try:
+            cn = entry['cn'][0]
+            #try:
+            #    operatingSystem = entry['operatingSystem'][0]
+            #except:
+            #    operatingSystem = ""
+
+            user = user()
+            user.cn = cn
+            user.save()
+        except:
+          #  print(entry)
+            None
+    return None

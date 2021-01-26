@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% extends 'inventory/index.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            <div class="row">
+		<table id="myPCs" class="table">
+
+		<tr>
+
+		<td>
+			<label class="control-label">PC</label>
+			<input class= type="text" id="myInputSVR" onkeyup="myFilter(0,'myInputSVR')" placeholder="Search for SVR.." title="Type in a SVR">
+			<span class="glyphicon glyphicon-search"></span>
+		</td>
+		<td>
+		</td>
+		<td>
+		</td>
+		<td>
+			<label class="control-label">OU</label>
+			<input class= type="text" id="myInputOU" onkeyup="myFilter(3,'myInputOU')" placeholder="Search for SVR.." title="Type in a OU">
+			<span class="glyphicon glyphicon-search"></span>
+		</td>
+		</tr>
+		{% for svr in svrs %}
+		<tr>
+			<td>
+                		<div class="col-md-12"><a href="http://192.168.41.19:8000/inventory/svr_edit/{{ svr.pk }}">{{ svr.cn }}</a></div>
+			</td>
+			<td>
+                		<div class="col-md-12">{{ svr.user.name }}</div>
+			</td>
+			<td>
+                		<div class="col-md-12">{{ svr.operatingSystem }}</div>
+			</td>
+			<td>
+                		<div class="col-md-12">{{ svr.OU }}</div>
+			</td>
+	
+		</tr>
+		{% endfor %}
+		</table>
+		
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'inventory/index.html' %}
+{% block content %}
+<div class="container">
+    <form method="post" name="winSvrLic_edit" enctype="multipart/form-data" action="">
+	{% csrf_token %}
+        <h2 class="text-center">TERMINAL(EDYCJA)</h2>
+	{{trm}}
+	SN
+        <div class="form-group"><input type="text" name="sn" placeholder="sn" class="form-control" value={{trm.sn}}></div>
+	HOST	
+        <div class="form-group"><input type="text" name="hostname" placeholder="hostname" class="form-control" value={{trm.hostname}}></div>
+	MODEL
+        <div class="form-group"><input type="text" name="model" placeholder="model" class="form-control" value=1111{{trm.model}}></div>
+	{{trm.model}}
+
+	DESCR
+        <div class="form-group"><input type="text" name="description" placeholder="description" class="form-control" value={{trm.description}}></div>
+	{{trm.description}}
+	MAC
+
+
+        <div class="form-group"><input type="text" name="mac" placeholder="mac" class="form-control" value={{trm.mac}}></div>
+	DEP
+        <div class="form-group"><input type="text" name="dep" placeholder="dep" class="form-control" value={{trm.dep}}></div>
+        <div class="form-group"><button class="btn btn-primary" type="submit">send</button></div>
+    </form>
+</div>
+{% endblock %}

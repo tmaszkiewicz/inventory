@@ -1,0 +1,53 @@
+import ldap
+from .models import machine
+def check_credentials(username, password):
+    """Verifies credentials for username and password.
+    Returns None on success or a string describing the error on failure
+    # Adapt to your needs
+    """
+    LDAP_SERVER = 'ldap://192.168.41.40'
+    # fully qualified AD user name
+    LDAP_USERNAME = '%s@jan.polipol.intra' % username
+    print(LDAP_USERNAME)
+    # your password
+    LDAP_PASSWORD = password
+    print(LDAP_PASSWORD)
+    attrs = ['memberOf']
+    try:
+        # build a client
+        ldap_client = ldap.initialize(LDAP_SERVER)
+        # perform a synchronous bind
+        ldap_client.set_option(ldap.OPT_REFERRALS,0)
+        ldap_client.simple_bind_s(LDAP_USERNAME, LDAP_PASSWORD)
+    except ldap.INVALID_CREDENTIALS:
+        ldap_client.unbind()
+        return 'Wrong username /  password'
+    except ldap.SERVER_DOWN:
+        return 'AD server not available'
+   # all is well
+   # get all user groups and store it in cerrypy session for future use
+    base_dn = "DC=jan,DC=polipol,DC=intra"
+    results = ldap_client.search_s(base_dn,ldap.SCOPE_SUBTREE,"(CN=JAN-*)")
+    for dn,entry in results:
+        try:
+            cn = entry['cn'][0]
+            operatingSystem = entry['operatingSystem'][0]
+            description = entry['description'][0]
+            dNSHostName = entry['dNSHostName'][0]
+            distinguishedName = entry['distinguishedName'][0]
+            operatingSystemServicePack = entry['operatingSystemServicePack'][0]
+
+            print(entry)
+            comp = machine()
+            comp.cn = cn
+            comp.operatingSystem = operatingSystem
+            comp.description= description
+            comp.dNSHostName = dNSHostName
+            comp.distinguishedName = distinguishedName
+            comp.operatingSystemServicePack = operatingSystemServicePack
+            comp.save()
+        except:
+            None
+    ldap_client.unbind()
+    return None
+def read_machines(base_dn)

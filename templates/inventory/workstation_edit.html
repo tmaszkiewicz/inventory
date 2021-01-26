@@ -1,0 +1,51 @@
+{% extends 'inventory/index.html' %}
+{% block content %}
+<div class="container">
+
+    <form name="workstation_edit" method="post"  enctype="multipart/form-data" action="">
+	{% csrf_token %}
+	{{mach.as_form}}
+        <h2 class="text-center">STACJA ROBOCZA</h2>
+	
+        <div class="form-group"><label>CN:</label><input type="text" name="cn" placeholder="cn" class="form-control" value={{mach.cn}}></div>
+        <div class="form-group"><label>CN:</label><input type="text" name="operatingSystem" placeholder="operatingSystem" class="form-control" value="{{mach.operatingSystem}}"></div>
+
+        <div class="form-group"><label>DESCRIPTION:</label><input type="text" name="description" placeholder="description" class="form-control" value="{{mach.description}}"></div>
+        <div class="form-group"><label>SERVICEPACK:</label><input type="text" name="operatingSystemServicePack" placeholder="operatingSystemServicePack" class="form-control" value="{{mach.operatingSystemServicePack}}"></div>
+        <div class="form-group"><label>DIST.NAME:</label><input type="text" name="distinguishedName" placeholder="distinguishedName " class="form-control" value="{{mach.distinguishedName}}"></div>
+        <div class="form-group"><label>DNS:</label><input type="text" name="dNSHostName" placeholder="dNSHostName" class="form-control" value="{{mach.dNSHostName}}"></div>
+        <div class="form-group"><label>OU:</label><input type="text" name="OU" placeholder="OU" class="form-control" value="{{mach.OU}}"></div>
+        <div class="form-group"><label>UPDATED:</label><input type="datetime" name="aktualizacja" placeholder="aktualizacja" class="form-control" value="{{mach.aktualizacja}}"></div>
+        <div class="form-group"><label>RODO:</label><input type="boolean"  input id="chk1"  name="rodo" placeholder="rodo" class="form-control" value="{{mach.rodo}}"></div>
+
+	<div>
+	<label>USER:</label><br>
+	<select name="user" placeholder="user"  value={{mach.user.pk}}>
+		<option value="{{mach.user.pk}}">{{mach.user}}</option>
+		{%for u in users%}
+			<option value="{{u.pk}}">{{u.cn}}</option>
+		{%endfor%}
+	</select>
+	</div>
+	<div>
+	<label>OFFICE:</label><br>
+	<select name="officeLicense" placeholder="officeLicense"  value={{mach.officeLicense.pk}}>
+		<option value="{{mach.officeLicense.pk}}">{{mach.officeLicense}}</option>
+		{%for o in officeLicenses%}
+			<option value="{{o.pk}}">{{o.key}}{{o.description}}</option>
+		{%endfor%}
+		 <option value="{{nic}}" >Brak</option>
+			
+	</select>
+	</div>
+        <div class="form-group"><button class="btn btn-primary" type="submit">send</button></div>
+    </form>
+</div>
+{{status}}
+<script>
+	{{mach.rodo}}= ocument.getElementById("chk1").value
+
+	document.write(document.getElementById("chk1").value)
+</script>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends 'inventory/index.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+		
+
+
+		<table id="myWorkstations" class="table">
+	
+		{% for lic in licenses %}
+
+		<tr>
+		<td>
+                <div class="col-md-12"><a href="http://192.168.41.19:8000/inventory/officelic_edit/{{ lic.pk }}">{{ lic.osName }}</a></div>
+		</td>
+		<td>
+		{{lic.key}}
+		</td>
+		<td>
+		{{lic.description}}
+		</td>
+		<td>
+		{{lic.vol}}
+		</td>
+		<td>
+		{{lic.available}} 
+		{{lic.free}} 
+		{{lic.inUse}} 
+
+		</td>
+		<td>
+		<button type="button"  onClick="window.location.href='http://192.168.41.19:8000/inventory/officelic_del/{{ lic.pk }}'"  class="btn btn-default" aria-label="trash">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+			
+		</button>
+		</td>
+		<td>
+		<button type="button" onClick="window.location.href='http://192.168.41.19:8000/inventory/officelic_edit/{{ lic.pk }}'" class="btn btn-default" aria-label="trash">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+		</button>
+		</td>
+		</tr>
+		{% endfor %}
+		</table>
+		
+		<center><button class="btn btn-default" onclick="window.location.href='http://192.168.41.19:8000/inventory/officelic_new'">DODAJ NOWĄ LICENCJĘ</button><center>
+		<br>
+		<br>
+		<br>
+
+        </div>
+    </div>
+{% endblock %}
